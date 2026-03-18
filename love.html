@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>How Well Do You Know Me? 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.7);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) scale(1); }
+    100% { transform: translateY(-10vh) scale(1.5); }
+}
+
+/* Glass card */
+.quiz-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 450px;
+    margin: 100px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+    margin-top: 40px;
+}
+
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    width: 80%;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: rgba(255,255,255,0.6);
+    color: #ff4d6d;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<h1>💖 How Well Do You Know Me? 💖</h1>
+
+<div class="quiz-box">
+    <h2 id="question"></h2>
+    <div id="answers"></div>
+</div>
+
+<script>
+// Floating hearts generator 💕
+for (let i = 0; i < 20; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+}
+
+// QUIZ QUESTIONS (customize here 💌)
+const quiz = [
+    {
+        question: "Where did we first meet? 💕",
+        answers: ["School", "at ur building", "College", "Party"],
+        correct: 1
+    },
+    {
+        question: "Mujhe sabse jyada kya pasand hai ? 💖",
+        answers: ["Sleeping", "Dancing", "You ❤️", "Food"],
+        correct: 2
+    },
+    {
+        question: "Mera fav colour? 🎀",
+        answers: ["Black", "pink", "Blue", "White"],
+        correct: 0
+    },
+    {
+        question: "Mai tujhe kya naam se bulati hu ? 😘",
+        answers: ["Pupu", "Chinnu", "Bacha", "All of these"],
+        correct: 3
+    }
+];
+
+let current = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = quiz[current];
+    document.getElementById("question").innerText = q.question;
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+
+    q.answers.forEach((ans, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = ans;
+        btn.onclick = () => checkAnswer(index);
+        answersDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(index) {
+    if (index === quiz[current].correct) {
+        score++;
+    }
+    current++;
+    if (current < quiz.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    let message = "";
+    if (score === quiz.length) {
+        message = "😭💖 You know me perfectly!! I love you sooo much Pupu ❤️";
+    } else if (score >= 2) {
+        message = "🥺💕 You know me pretty well! Keep loving me more 😘";
+    } else {
+        message = "😜 You need more time with me hehe ❤️";
+    }
+
+    document.querySelector(".quiz-box").innerHTML = `
+        <h2>You scored ${score}/${quiz.length} 💕</h2>
+        <p>${message}</p>
+        <button onclick="location.reload()">Play Again 🔁</button>
+    `;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
